@@ -1,0 +1,16 @@
+# Ignore version control folders
+.git
+
+# Ignore IDE and editor folders
+.idea
+.vscode
+
+# Ignore OS-specific files
+.DS_Store
+
+# Ignore node modules, as they are not needed for the static site
+node_modules
+
+# Ignore Docker-specific files from being included in the image itself
+Dockerfile
+.dockerignore
