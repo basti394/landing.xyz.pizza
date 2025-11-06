@@ -1,5 +1,13 @@
-const tickers = ["AAPL", "GOOG", "TSLA", "MSFT", "NVDA", "BTC", "ETH", "UBSG", "ROG", "CSGN", "SPX"];
-const changes = ["+0.5%", "-1.2%", "+2.1%", "-0.8%", "+1.5%", "-0.2%", "+3.4%", "UNCH"];
+const tickers = [
+  "AAPL", "GOOG", "TSLA", "MSFT", "NVDA", "SPX", "BTC", "ETH",
+  "AMZN", "META", "V", "MA", "JPM",
+  "UBSG", "ROG", "CSGN", "NESN", "NOVN", "SMI"
+];
+
+const changes = [
+  "+0.5%", "-1.2%", "+2.1%", "-0.8%", "+1.5%", "-0.2%", "+3.4%", "0.00%",
+  "+0.1%", "-0.9%", "+3.9%", "-2.5%", "+0.01%", "-1.8%", "+5.5%", "-4.2%"
+];
 
 function generateTickerText() {
   let t = tickers[floor(random(tickers.length))];
@@ -7,13 +15,12 @@ function generateTickerText() {
   return `${t} ${c}`;
 }
 
-// --- p5.js Sketch ---
 let packets = [];
-let numPackets = 100;
+let numPackets = 500;
 let channelSpacing = 30;
 let mouseHighlightDist = 100;
 let baseAlpha = 50;
-const fadeSpeed = 0.1; // Geschwindigkeit des Cross-fades (10% pro Frame)
+const fadeSpeed = 0.1;
 
 class Packet {
   constructor() {
@@ -22,9 +29,8 @@ class Packet {
     this.speed = random(1, 3);
     this.len = random(10, 30);
 
-    // --- NEUE STATUS-LOGIK (Kein Timer) ---
     this.tickerText = "";
-    this.fadeProgress = 0; // 0 = 100% Linie, 1 = 100% Ticker
+    this.fadeProgress = 0;
   }
 
   update() {
@@ -33,7 +39,6 @@ class Packet {
     if (this.x > width) {
       this.x = -this.len;
       this.y = floor(random(height / channelSpacing)) * channelSpacing;
-      // Reset beim Wrappen
       this.tickerText = "";
       this.fadeProgress = 0;
     }
@@ -41,46 +46,32 @@ class Packet {
 
   draw(dMouse) {
 
-    // --- 1. STATUS AKTUALISIEREN (Nicht mehr zeitbasiert) ---
     if (dMouse < mouseHighlightDist) {
-      // Maus ist NAHE DRAN
-      // Wenn kein Ticker-Text da ist, generiere einen.
       if (this.tickerText === "") {
         this.tickerText = generateTickerText();
       }
-      // Erhöhe den Fade-Status (bis max 1)
       this.fadeProgress = min(1, this.fadeProgress + fadeSpeed);
     } else {
-      // Maus ist WEG
-      // Verringere den Fade-Status (bis min 0)
       this.fadeProgress = max(0, this.fadeProgress - fadeSpeed);
 
-      // Wenn komplett ausgeblendet, Ticker-Text löschen
       if (this.fadeProgress === 0) {
         this.tickerText = "";
       }
     }
 
-    // --- 2. ALPHA (DECKKRAFT) BERECHNEN ---
 
-    // Die Basis-Linie (wird heller, je näher die Maus ist)
     let baseLineAlpha = map(dMouse, 0, mouseHighlightDist, 255, baseAlpha, true);
 
-    // Der Cross-fade:
-    // Linie fadet von ihrer Basis-Helligkeit auf 0
+
     let lineAlpha = map(this.fadeProgress, 0, 1, baseLineAlpha, 0);
-    // Text fadet von 0 auf 255
     let textAlpha = map(this.fadeProgress, 0, 1, 0, 255);
 
 
-    // --- 3. ZEICHNEN ---
 
-    // Zeichne die LINIE (wird unsichtbar bei fadeProgress = 1)
     stroke(255, 255, 255, lineAlpha);
     strokeWeight(2);
     line(this.x, this.y, this.x + this.len, this.y);
 
-    // Zeichne den TEXT (wird sichtbar bei fadeProgress > 0)
     if (textAlpha > 0) {
       fill(255, 255, 255, textAlpha);
       noStroke();

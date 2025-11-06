@@ -137,6 +137,7 @@ h2 { font-size: 1.5em; color: var(--text-light); padding-bottom: 10px; border-bo
 .metric-item {
   text-align: left;
 }
+
 .metric-label {
   font-size: 0.8em;
   color: var(--text-muted); /* Gedämpfte Farbe für die Beschriftung */
@@ -151,6 +152,6 @@ h2 { font-size: 1.5em; color: var(--text-light); padding-bottom: 10px; border-bo
 
 #portfolio-chart-container {
   max-width: 600px; /* Set a max-width for large screens */
-  margin: 20px auto; /* Center the container and add some vertical spacing */
+  margin: 0 auto; /* Center the container and remove vertical spacing */
   width: 100%; /* Ensure it takes up the full width of its parent */
 }

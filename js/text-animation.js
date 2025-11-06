@@ -7,14 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const startDelay = 500;
 
   const mobileMaxWidth = 768;
-  let h1Text = h1.getAttribute('data-text'); // Liest den Text aus der EINEN Quelle
+  let h1Text = h1.getAttribute('data-text');
 
   if (window.innerWidth <= mobileMaxWidth) {
-    // Ersetzt ALLE Bindestriche (-) durch Bindestrich und HTML-Umbruch (-<br>)
-    // Der '/g' (global) Parameter stellt sicher, dass alle Vorkommen ersetzt werden.
     h1Text = h1Text.replace(/-/g, '-<br>');
 
-    h1.setAttribute('data-text', h1Text); // Setzt den mobil-formatierten Text
+    h1.setAttribute('data-text', h1Text);
   }
 
   function wrapChars(element, delay, startDelayOffset = 0) {
@@ -54,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isInLink = false;
 
     const linkMap = {
-      'hsg': 'https://unisg.ch'
+      'hsg': 'https://unisg.ch/en/'
     };
 
     words.forEach((word) => {

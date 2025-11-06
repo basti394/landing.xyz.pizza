@@ -77,9 +77,8 @@ const portfolioSketch = (p) => {
     const innerDiameter = chartDiameter - 2 * thickness;
     const gap = 0.05;
 
-    // --- CORRECTED: Normalize the data ---
     const totalPercentage = allocation.reduce((sum, item) => sum + item.percentage, 0);
-    if (totalPercentage <= 0) return; // Do nothing if there's no data
+    if (totalPercentage <= 0) return;
 
     // --- 1. Hit Detection ---
     const mouseDist = p.dist(0, 0, p.mouseX - p.width / 2, p.mouseY - p.height / 2);
@@ -90,7 +89,7 @@ const portfolioSketch = (p) => {
     if (mouseDist > innerDiameter / 2 && mouseDist < chartDiameter / 2) {
       let lastAngle = 0;
       for (const item of allocation) {
-        const angle = (item.percentage / totalPercentage) * p.TWO_PI; // Use normalized angle
+        const angle = (item.percentage / totalPercentage) * p.TWO_PI;
         if (angle <= 0) continue;
         if (mouseAngle > lastAngle + gap / 2 && mouseAngle < lastAngle + angle - gap / 2) {
           currentHover = item;
@@ -101,12 +100,12 @@ const portfolioSketch = (p) => {
     }
     hoveredSegment = currentHover;
 
-    // --- 2. Draw Chart Segments with Animation ---
+    // --- 2. Draw Chart Segments ---
     p.push();
     p.rotate(-p.HALF_PI);
     let lastAngle = 0;
     for (const item of allocation) {
-      const angle = (item.percentage / totalPercentage) * p.TWO_PI; // Use normalized angle
+      const angle = (item.percentage / totalPercentage) * p.TWO_PI;
       if (angle <= 0) continue;
 
       const isHovered = item === hoveredSegment;
@@ -136,21 +135,31 @@ const portfolioSketch = (p) => {
     }
     p.pop();
 
-    // --- 3. Draw Center Text ---
-    if (hoveredSegment) {
-      p.textAlign(p.CENTER, p.CENTER);
-      p.noStroke();
-      p.fill(255);
+    const percentageTextSize = isSmall ? 24 : 32;
+    const labelTextSize = isSmall ? 12 : 14;
 
+    p.textAlign(p.CENTER, p.CENTER);
+    p.noStroke();
+    p.fill(255);
+
+    if (hoveredSegment) {
       const label = isSmall ? hoveredSegment.shortLabel : hoveredSegment.label;
-      const percentageTextSize = isSmall ? 24 : 32;
-      const labelTextSize = isSmall ? 12 : 14;
 
       p.textSize(percentageTextSize);
+      p.textStyle(p.BOLD);
       p.text(`${hoveredSegment.percentage.toFixed(2)}%`, 0, -labelTextSize / 2);
 
       p.textSize(labelTextSize);
+      p.textStyle(p.NORMAL);
       p.text(label, 0, labelTextSize + 4);
+    } else {
+      p.textSize(percentageTextSize);
+      p.textStyle(p.BOLD);
+      p.text(`>70k€`, 0, -labelTextSize / 2);
+
+      p.textSize(labelTextSize);
+      p.textStyle(p.NORMAL);
+      p.text("Total", 0, labelTextSize + 4);
     }
   };
 
