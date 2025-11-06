@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Boot Sequence (Instant Fade Ticker)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main id="bg-canvas"></main>
+
+<nav>
+  <a href="#projects">01_PROJECTS</a>
+  <a href="#thesis">02_ANALYSIS</a>
+  <a href="#portfolio">03_PORTFOLIO</a>
+  <a href="#about">WHY XYZ.PIZZA</a>
+</nav>
+
+<div class="content-wrapper">
+  <section class="content-section hero">
+    <h1 id="fade-in-h1" data-text="SOFTWARE-SYSTEMS.<br>QUANT-ANALYSIS."></h1>
+    <p id="fade-in-p" data-text="Modern Systems Architecture and Data-Driven Financial Analysis."></p>
+    <p id="fade-in-p2" data-text="Projects by a CS Student @ [LINK_START:hsg][LINK_END]"></p>
+  </section>
+
+  <div id="projects-container"></div>
+  <div id="analysis-container"></div>
+  <div id="portfolio-container"></div>
+  <div id="about-container"></div>
+
+</div>
+
+<script src="js/background.js"></script>
+<script src="js/text-animation.js"></script>
+<script src="js/portfolio-chart.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
